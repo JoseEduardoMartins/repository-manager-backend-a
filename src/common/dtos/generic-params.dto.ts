@@ -5,7 +5,9 @@ export class GenericParamsDto<T> {
   @ApiProperty({ required: false })
   @IsObject()
   @IsOptional()
-  select?: object;
+  select?: {
+    [P in keyof T]?: boolean;
+  };
 
   @ApiProperty({ required: false })
   @IsObject()

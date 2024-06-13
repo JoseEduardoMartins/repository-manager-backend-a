@@ -14,8 +14,13 @@ export class UsersService {
     private userRepository: Repository<User>,
   ) {}
 
-  find(paramsUserDto?: ParamsUserDto): Promise<User[]> {
-    return this.userRepository.find(paramsUserDto);
+  find(paramsUserDto: ParamsUserDto): Promise<User[]> {
+    return this.userRepository.find({
+      ...paramsUserDto,
+      relations: {
+        repositories: !!paramsUserDto.select.repositories,
+      },
+    });
   }
 
   findOne(id: number): Promise<User> {

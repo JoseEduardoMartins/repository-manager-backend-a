@@ -5,6 +5,7 @@ import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import appConfig from './config/app.config';
 import databaseConfig from './config/database.config';
 
+import { RepositoriesModule } from './modules/repositories/repositories.module';
 import { UsersModule } from './modules/users/users.module';
 
 import { UniqueConstraint } from './common/decorators/is-unique.validator';
@@ -31,6 +32,7 @@ import { UniqueConstraint } from './common/decorators/is-unique.validator';
         }) as TypeOrmModuleOptions,
       inject: [ConfigService],
     }),
+    RepositoriesModule,
     UsersModule,
   ],
   controllers: [],

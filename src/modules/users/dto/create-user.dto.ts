@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 import {
+  IsArray,
   IsBoolean,
   IsDateString,
   IsEmail,
@@ -9,6 +10,7 @@ import {
   IsOptional,
   IsString,
 } from 'class-validator';
+import { CreateRepositoryDto } from 'src/modules/repositories/dto/create-repository.dto';
 import { Unique } from '../../../common/decorators/is-unique.decorator';
 import { User, UserType } from '../entities/user.entity';
 
@@ -150,4 +152,9 @@ export class CreateUserDto {
   @ApiProperty({ required: false })
   @IsDateString()
   updated_at: Date;
+
+  @ApiProperty({ required: false })
+  @IsArray()
+  @IsOptional()
+  repositories?: CreateRepositoryDto[];
 }

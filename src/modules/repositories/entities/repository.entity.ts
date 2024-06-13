@@ -1,5 +1,6 @@
 import { License } from 'src/modules/licenses/entities/license.entity';
 import { Entity, PrimaryColumn, Column, ManyToOne } from 'typeorm';
+import { User } from 'src/modules/users/entities/user.entity';
 
 export enum RepositoryVisibility {
   public = 'public',
@@ -8,6 +9,7 @@ export enum RepositoryVisibility {
 
 export enum RepositoryDefaultBranch {
   main = 'main',
+  master = 'master',
 }
 
 @Entity({
@@ -330,8 +332,9 @@ export class Repository {
   @Column({
     name: 'homepage',
     type: 'varchar',
+    nullable: true,
   })
-  homepage: string;
+  homepage?: string;
 
   @Column({
     name: 'size',
@@ -480,6 +483,9 @@ export class Repository {
     default: RepositoryDefaultBranch.main,
   })
   default_branch: RepositoryDefaultBranch;
+
+  @ManyToOne(() => User, (user) => user.repositories)
+  user: User;
 
   constructor(repository?: Partial<Repository>) {
     this.id = repository?.id;

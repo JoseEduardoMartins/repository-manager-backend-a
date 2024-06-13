@@ -1,4 +1,5 @@
-import { Entity, PrimaryColumn, Column } from 'typeorm';
+import { Entity, PrimaryColumn, Column, OneToMany } from 'typeorm';
+import { Repository } from 'src/modules/repositories/entities/repository.entity';
 
 export enum UserType {
   User = 'User',
@@ -204,6 +205,9 @@ export class User {
     type: 'datetime',
   })
   updated_at: Date;
+
+  @OneToMany(() => Repository, (repository) => repository.user)
+  repositories?: Repository[];
 
   constructor(user?: Partial<User>) {
     this.login = user?.login;
