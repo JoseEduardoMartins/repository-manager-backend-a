@@ -1,11 +1,23 @@
-FROM node:12.14.0-alpine3.11
+# Use uma imagem Node oficial como base
+FROM node:16-alpine
 
-RUN apk add --no-cache bash git
+# Crie um diretório de trabalho
+WORKDIR /app
 
-RUN touch /home/eduardo/.bashrc | echo "PS1='\w\$ '" >> /home/eduardo/.bashrc
+# Copie o package.json e o package-lock.json
+COPY package*.json ./
 
-RUN npm i -g @nestjs/cli@7.4.1
+# Instale as dependências
+RUN npm install
 
-USER eduardo
+# Copie o restante do código da aplicação
+COPY . .
 
-WORKDIR /home/eduardo/nest
+# Compilar o código TypeScript
+RUN npm run build
+
+# Exponha a porta que a aplicação utiliza
+EXPOSE 3000
+
+# Comando para iniciar a aplicação
+CMD ["npm", "run", "start:prod"]

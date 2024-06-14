@@ -18,7 +18,7 @@ export class UsersService {
     return this.userRepository.find({
       ...paramsUserDto,
       relations: {
-        repositories: !!paramsUserDto.select.repositories,
+        repositories: !!paramsUserDto.select?.repositories,
       },
     });
   }
