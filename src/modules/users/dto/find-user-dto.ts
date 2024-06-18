@@ -172,11 +172,6 @@ export class FiltersUserDto {
   @IsDate()
   @IsOptional()
   updated_at?: Date;
-
-  @ApiProperty({ required: false })
-  @IsBoolean()
-  @IsOptional()
-  repositories?: boolean;
 }
 
 export class ParamsUserDto extends GenericParamsDto<FiltersUserDto> {}

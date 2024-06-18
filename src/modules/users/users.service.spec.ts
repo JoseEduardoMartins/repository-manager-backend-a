@@ -90,7 +90,7 @@ describe('UsersService', () => {
 
   describe('find', () => {
     it('should return a user entity list successfully', async () => {
-      const result = await usersService.find();
+      const result = await usersService.find({});
 
       expect(result).toEqual(findResponse);
       expect(typeof result).toEqual('object');
@@ -99,24 +99,27 @@ describe('UsersService', () => {
 
     it('should throw an exception', () => {
       jest.spyOn(usersRepository, 'find').mockRejectedValueOnce(new Error());
-      expect(usersService.find()).rejects.toThrowError();
+      expect(usersService.find({})).rejects.toThrowError();
     });
   });
 
   describe('findOne', () => {
+    const login = '';
+
     it('should return a user entity successfully', async () => {
-      const id = 1;
-      const result = await usersService.findOne(id);
+      const result = await usersService.findOne(login);
 
       expect(result).toEqual(user);
       expect(typeof result).toEqual('object');
       expect(usersRepository.findOne).toHaveBeenCalledTimes(1);
-      expect(usersRepository.findOne).toHaveBeenCalledWith({ where: { id } });
+      expect(usersRepository.findOne).toHaveBeenCalledWith({
+        where: { login },
+      });
     });
 
     it('should throw an exception', () => {
       jest.spyOn(usersService, 'findOne').mockRejectedValueOnce(new Error());
-      expect(usersService.findOne(1)).rejects.toThrowError();
+      expect(usersService.findOne(login)).rejects.toThrowError();
     });
   });
 

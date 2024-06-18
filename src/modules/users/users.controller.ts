@@ -1,28 +1,35 @@
 import {
-  Controller,
-  Get,
-  Post,
-  Patch,
-  Delete,
-  Param,
-  Query,
   Body,
+  Controller,
+  Delete,
+  Get,
   HttpCode,
-  HttpStatus,
   HttpException,
+  HttpStatus,
+  Inject,
+  Param,
   ParseIntPipe,
+  Patch,
+  Post,
+  Query,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation } from '@nestjs/swagger';
+import { ClientProxy } from '@nestjs/microservices';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { firstValueFrom } from 'rxjs';
 import { getParams } from '../../common/helpers/params';
-import { UsersService } from './users.service';
-import { FindUserDto } from './dto/find-user-dto';
 import { CreateUserDto } from './dto/create-user.dto';
+import { FindUserDto } from './dto/find-user-dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { UsersService } from './users.service';
 
 @ApiTags('User')
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    @Inject('RABBITMQ_SERVICE')
+    private readonly client: ClientProxy,
+  ) {}
 
   @ApiOperation({
     description: 'Listagem de usuarios utilizando filtros.',
@@ -35,12 +42,25 @@ export class UsersController {
   }
 
   @ApiOperation({
-    description: 'Listagem de usuario utilizando id.',
+    description: 'Listagem de usuario utilizando login.',
     tags: ['User'],
   })
-  @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.usersService.findOne(id);
+  @Get(':login')
+  async findOne(@Param('login') login: string) {
+    const user = await this.usersService.findOne(login);
+
+    if (user) return user;
+
+    const pattern = { cmd: 'find_user' };
+    const payload = { login };
+
+    const result = this.client.send(pattern, payload);
+    const response: CreateUserDto = await firstValueFrom(result);
+    console.log(response);
+
+    await this.usersService.create(response);
+
+    return response;
   }
 
   @ApiOperation({

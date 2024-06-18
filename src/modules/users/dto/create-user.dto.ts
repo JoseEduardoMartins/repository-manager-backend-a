@@ -15,82 +15,82 @@ import { Unique } from '../../../common/decorators/is-unique.decorator';
 import { User, UserType } from '../entities/user.entity';
 
 export class CreateUserDto {
-  @ApiProperty({ required: false })
+  @ApiProperty({ required: true })
   @IsString()
   @Unique(User, 'login')
   login: string;
 
-  @ApiProperty({ required: false })
+  @ApiProperty({ required: true })
   @IsNumber()
   @Transform(({ value }) => Number(value))
   @Unique(User, 'id')
   id: number;
 
-  @ApiProperty({ required: false })
+  @ApiProperty({ required: true })
   @IsString()
   node_id: string;
 
-  @ApiProperty({ required: false })
+  @ApiProperty({ required: true })
   @IsString()
   avatar_url: string;
 
-  @ApiProperty({ required: false })
+  @ApiProperty({ required: true })
   @IsString()
   gravatar_id: string;
 
-  @ApiProperty({ required: false })
+  @ApiProperty({ required: true })
   @IsString()
   url: string;
 
-  @ApiProperty({ required: false })
+  @ApiProperty({ required: true })
   @IsString()
   html_url: string;
 
-  @ApiProperty({ required: false })
+  @ApiProperty({ required: true })
   @IsString()
   followers_url: string;
 
-  @ApiProperty({ required: false })
+  @ApiProperty({ required: true })
   @IsString()
   following_url: string;
 
-  @ApiProperty({ required: false })
+  @ApiProperty({ required: true })
   @IsString()
   gists_url: string;
 
-  @ApiProperty({ required: false })
+  @ApiProperty({ required: true })
   @IsString()
   starred_url: string;
 
-  @ApiProperty({ required: false })
+  @ApiProperty({ required: true })
   @IsString()
   subscriptions_url: string;
 
-  @ApiProperty({ required: false })
+  @ApiProperty({ required: true })
   @IsString()
   organizations_url: string;
 
-  @ApiProperty({ required: false })
+  @ApiProperty({ required: true })
   @IsString()
   repos_url: string;
 
-  @ApiProperty({ required: false })
+  @ApiProperty({ required: true })
   @IsString()
   events_url: string;
 
-  @ApiProperty({ required: false })
+  @ApiProperty({ required: true })
   @IsString()
   received_events_url: string;
 
-  @ApiProperty({ required: false })
+  @ApiProperty({ required: true })
   @IsEnum(UserType)
   type: UserType;
 
-  @ApiProperty({ required: false })
+  @ApiProperty({ required: true })
   @IsBoolean()
   site_admin: boolean;
 
-  @ApiProperty({ required: false })
+  @ApiProperty({ required: true })
   @IsString()
   name: string;
 
@@ -99,13 +99,14 @@ export class CreateUserDto {
   @IsOptional()
   company?: string;
 
-  @ApiProperty({ required: false })
+  @ApiProperty({ required: true })
   @IsString()
   blog: string;
 
   @ApiProperty({ required: false })
   @IsString()
-  location: string;
+  @IsOptional()
+  location?: string;
 
   @ApiProperty({ required: false })
   @IsEmail()
@@ -114,42 +115,44 @@ export class CreateUserDto {
 
   @ApiProperty({ required: false })
   @IsBoolean()
-  hireable: boolean;
+  @IsOptional()
+  hireable?: boolean;
 
   @ApiProperty({ required: false })
   @IsString()
-  bio: string;
+  @IsOptional()
+  bio?: string;
 
   @ApiProperty({ required: false })
   @IsString()
   @IsOptional()
   twitter_username?: string;
 
-  @ApiProperty({ required: false })
+  @ApiProperty({ required: true })
   @IsNumber()
   @Transform(({ value }) => Number(value))
   public_repos: number;
 
-  @ApiProperty({ required: false })
+  @ApiProperty({ required: true })
   @IsNumber()
   @Transform(({ value }) => Number(value))
   public_gists: number;
 
-  @ApiProperty({ required: false })
+  @ApiProperty({ required: true })
   @IsNumber()
   @Transform(({ value }) => Number(value))
   followers: number;
 
-  @ApiProperty({ required: false })
+  @ApiProperty({ required: true })
   @IsNumber()
   @Transform(({ value }) => Number(value))
   following: number;
 
-  @ApiProperty({ required: false })
+  @ApiProperty({ required: true })
   @IsDateString()
   created_at: Date;
 
-  @ApiProperty({ required: false })
+  @ApiProperty({ required: true })
   @IsDateString()
   updated_at: Date;
 

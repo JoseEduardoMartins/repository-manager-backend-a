@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 import { GenericCreateResponse } from 'src/common/interfaces/generic-response';
-import { User } from './entities/user.entity';
-import { ParamsUserDto } from './dto/find-user-dto';
+import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
+import { ParamsUserDto } from './dto/find-user-dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { User } from './entities/user.entity';
 
 @Injectable()
 export class UsersService {
@@ -18,13 +18,18 @@ export class UsersService {
     return this.userRepository.find({
       ...paramsUserDto,
       relations: {
-        repositories: !!paramsUserDto.select?.repositories,
+        repositories: true,
       },
     });
   }
 
-  findOne(id: number): Promise<User> {
-    return this.userRepository.findOne({ where: { id } });
+  findOne(login: string): Promise<User> {
+    return this.userRepository.findOne({
+      where: { login },
+      relations: {
+        repositories: true,
+      },
+    });
   }
 
   async create(createUserDto: CreateUserDto): Promise<GenericCreateResponse> {

@@ -22,6 +22,7 @@ import { UniqueConstraint } from './common/decorators/is-unique.validator';
       useFactory: (configService: ConfigService) =>
         ({
           type: configService.get<string>('database.type'),
+          charset: 'utf8mb4',
           host: configService.get<string>('database.host'),
           port: configService.get<number>('database.port'),
           database: configService.get<string>('database.name'),

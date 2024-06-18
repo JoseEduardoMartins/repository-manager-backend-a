@@ -141,8 +141,9 @@ export class User {
   @Column({
     name: 'location',
     type: 'varchar',
+    nullable: true,
   })
-  location: string;
+  location?: string;
 
   @Column({
     name: 'email',
@@ -154,14 +155,18 @@ export class User {
   @Column({
     name: 'hireable',
     type: 'boolean',
+    nullable: true,
   })
-  hireable: boolean;
+  hireable?: boolean;
 
   @Column({
     name: 'bio',
-    type: 'varchar',
+    type: 'text',
+    nullable: true,
+    charset: 'utf8mb4',
+    collation: 'utf8mb4_unicode_ci',
   })
-  bio: string;
+  bio?: string;
 
   @Column({
     name: 'twitter_username',
