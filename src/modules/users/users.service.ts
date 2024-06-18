@@ -20,6 +20,7 @@ export class UsersService {
       relations: {
         repositories: true,
       },
+      relationLoadStrategy: 'join',
     });
   }
 

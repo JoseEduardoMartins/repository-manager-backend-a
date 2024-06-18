@@ -1,6 +1,6 @@
 import { License } from 'src/modules/licenses/entities/license.entity';
-import { Entity, PrimaryColumn, Column, ManyToOne } from 'typeorm';
 import { User } from 'src/modules/users/entities/user.entity';
+import { Column, Entity, ManyToOne, PrimaryColumn } from 'typeorm';
 
 export enum RepositoryVisibility {
   public = 'public',
